@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CartesianPlacer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CartesianPlacer_jar</output-path>
+    <root id="archive" name="CartesianPlacer.jar">
+      <element id="module-output" name="CartesianPlacer" />
+    </root>
+  </artifact>
+</component>
