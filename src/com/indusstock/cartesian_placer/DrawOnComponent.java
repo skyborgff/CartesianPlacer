@@ -147,8 +147,9 @@ public class DrawOnComponent
             public int xDelta;
             public int yDelta;
             public int selectedrectangle;
+            public boolean dragging;
 
-            public void mousePressed(MouseEvent e)
+            public void mouseClicked(MouseEvent e)
             {   // Right mouse adds rectangle
                 // TODO: check if it will not overlap another one before placing
                 if (SwingUtilities.isRightMouseButton(e)){
@@ -165,6 +166,10 @@ public class DrawOnComponent
                     }
                     shape = null;
                 }
+                repaint();
+                }
+            public void mousePressed(MouseEvent e)
+            {
                 if (SwingUtilities.isLeftMouseButton(e)){
                     startPoint = e.getPoint();
                     selectedrectangle = coloredRectangles.closestInt(startPoint);
@@ -172,14 +177,17 @@ public class DrawOnComponent
                     int startRecty = coloredRectangles.get(selectedrectangle).getRectangle().y;
                     xDelta = startRectx - startPoint.x;
                     yDelta = startRecty - startPoint.y;
-                    }
                 }
+                repaint();
+            }
+
             public void mouseMoved(MouseEvent e)
             {
                 Point currentPoint = e.getPoint();
                 if (coloredRectangles.isSelected(currentPoint)){
                     coloredRectangles.selectClosest(currentPoint);
                 }
+                dragging = false;
                 repaint();
             }
 
@@ -187,10 +195,16 @@ public class DrawOnComponent
                 public void mouseDragged(MouseEvent e)
                 {
                     Point currentPoint = e.getPoint();
-                    if (coloredRectangles.isSelected(currentPoint)){
-                        coloredRectangles.get(selectedrectangle).setPosition(currentPoint.x + xDelta,currentPoint.y + yDelta);
+                    if (SwingUtilities.isLeftMouseButton(e)) {
+                        if (coloredRectangles.isSelected(currentPoint)) {
+                            dragging = true;
+                        }
+                        if (dragging) {
+                            coloredRectangles.get(selectedrectangle).setPosition(currentPoint.x + xDelta, currentPoint.y + yDelta);
+                        }
+                        repaint();
                     }
-                    repaint();
+
                 }
 
 //            public void mouseReleased(MouseEvent e)
